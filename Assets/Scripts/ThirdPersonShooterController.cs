@@ -7,22 +7,35 @@ using UnityEngine.Animations.Rigging;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
+	// Static reference
+	public static ThirdPersonShooterController Instance { get; private set; }
+
+	// ShootProjectile script
 	[SerializeField] private ShootProjectile shootProjectile;
+	// Virtual Camera for aiming
 	[SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
+	// AimRig
 	[SerializeField] private Rig aimRig;
+	// Sensitivity when not aiming
 	[SerializeField] private float normalSensitivity;
+	// Sensitivity when aiming
 	[SerializeField] private float aimSensitivity;
+	// LayerMask for colliders when aiming
 	[SerializeField] private LayerMask aimColliderMask;
+	// AimRig target position
 	[SerializeField] private Transform shootPointTransform;
 
-
+	// ThirdPersonController script
 	private ThirdPersonController thirdPersonController;
+	// Player input script
 	private StarterAssetsInputs starterAssetsInputs;
 	private Animator animator;
+	// Controll the aim rig animation
 	private float aimRigWeight;
 
 	private void Awake()
 	{
+		Instance = this;
 		thirdPersonController = GetComponent<ThirdPersonController>();
 		starterAssetsInputs = GetComponent<StarterAssetsInputs>();
 		animator = GetComponent<Animator>();
@@ -32,19 +45,9 @@ public class ThirdPersonShooterController : MonoBehaviour
 	{
 		Vector3 inpactPoint = Vector3.zero;
 		Transform hitTransform = null;
-		Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-		Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-		if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderMask))
-		{
 
-			shootPointTransform.position = raycastHit.point;
-			inpactPoint = raycastHit.point;
-			hitTransform = raycastHit.transform;
-
-			Debug.Log("Raycast Hit point: " + raycastHit.point);
-			Debug.Log("RayCast Hit Transform Position: " + raycastHit.transform.position);
-		}
-
+		SendRayToScreenCenter(out inpactPoint, out hitTransform);
+		shootPointTransform.position = inpactPoint;
 
 		// Check if we are aiming
 		if (starterAssetsInputs.aim)
@@ -94,16 +97,19 @@ public class ThirdPersonShooterController : MonoBehaviour
 		aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
 	}
 
-	private Transform SendRayToScreenCenter()
+	private void SendRayToScreenCenter(out Vector3 hitPoint, out Transform hitTransform)
 	{
-
 		Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
 		Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 		if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderMask))
 		{
-			return raycastHit.transform;
+			hitPoint = raycastHit.point;
+			hitTransform = raycastHit.transform;
 		}
-
-		return null;
+		else
+		{
+			hitPoint = Vector3.zero;
+			hitTransform = null;
+		}
 	}
 }
