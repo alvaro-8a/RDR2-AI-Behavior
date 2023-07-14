@@ -24,10 +24,12 @@ public class AICivilianBT : Tree
 			new Sequence(new List<Node>
 			{
 				new CheckPlayerInFOVRange(transform),
+				new CheckPlayerIsAiming(),
 				new TaskRunAway(transform, navMeshAgent, OnAIEscape)
 			}),
 			new TaskRoam(transform, navMeshAgent, OnAIMoving, OnAIStop),
 		});
+
 		return root;
 	}
 }

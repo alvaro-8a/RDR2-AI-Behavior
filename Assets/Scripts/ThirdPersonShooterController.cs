@@ -10,6 +10,9 @@ public class ThirdPersonShooterController : MonoBehaviour
 	// Static reference
 	public static ThirdPersonShooterController Instance { get; private set; }
 
+
+	public bool isAiming { get; private set; }
+
 	// ShootProjectile script
 	[SerializeField] private ShootProjectile shootProjectile;
 	// Virtual Camera for aiming
@@ -52,6 +55,8 @@ public class ThirdPersonShooterController : MonoBehaviour
 		// Check if we are aiming
 		if (starterAssetsInputs.aim)
 		{
+			isAiming = true;
+
 			// Change Camera priority to use the aim camera
 			aimVirtualCamera.Priority = 20;
 
@@ -79,6 +84,8 @@ public class ThirdPersonShooterController : MonoBehaviour
 		}
 		else
 		{
+			isAiming = false;
+
 			// Set the aim camera to a lower priority to use the main camera
 			aimVirtualCamera.Priority = 5;
 
