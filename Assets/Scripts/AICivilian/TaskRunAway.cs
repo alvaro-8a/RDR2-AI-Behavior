@@ -5,16 +5,16 @@ using System;
 
 public class TaskRunAway : Node
 {
-	public event EventHandler OnEscape;
+	public event EventHandler OnAIEscape;
 
 	private Transform transform;
 	private NavMeshAgent navMeshAgent;
 
-	public TaskRunAway(Transform transform, NavMeshAgent navMeshAgent, EventHandler OnEscape)
+	public TaskRunAway(Transform transform, NavMeshAgent navMeshAgent, EventHandler OnAIEscape)
 	{
 		this.transform = transform;
 		this.navMeshAgent = navMeshAgent;
-		this.OnEscape = OnEscape;
+		this.OnAIEscape = OnAIEscape;
 	}
 
 	public override NodeState Evaluate()
@@ -28,7 +28,7 @@ public class TaskRunAway : Node
 
 		navMeshAgent.SetDestination(newDestination);
 
-		OnEscape?.Invoke(this, EventArgs.Empty);
+		OnAIEscape?.Invoke(this, EventArgs.Empty);
 		// }
 
 		state = NodeState.RUNNING;

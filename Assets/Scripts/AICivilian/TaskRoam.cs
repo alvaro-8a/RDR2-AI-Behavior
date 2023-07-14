@@ -6,8 +6,8 @@ using System;
 
 public class TaskRoam : Node
 {
-	public event EventHandler OnMoving;
-	public event EventHandler OnStop;
+	public event EventHandler OnAIMoving;
+	public event EventHandler OnAIStop;
 
 	// AI Object Transform
 	private Transform transform;
@@ -24,8 +24,8 @@ public class TaskRoam : Node
 	{
 		this.transform = transform;
 		this.navMeshAgent = navMeshAgent;
-		this.OnMoving = OnAIMoving;
-		this.OnStop = OnAIStop;
+		this.OnAIMoving = OnAIMoving;
+		this.OnAIStop = OnAIStop;
 	}
 
 	public override NodeState Evaluate()
@@ -39,7 +39,7 @@ public class TaskRoam : Node
 				MoveToNewPosition();
 
 				// Invoke event to start the walk animation
-				OnMoving?.Invoke(this, EventArgs.Empty);
+				OnAIMoving?.Invoke(this, EventArgs.Empty);
 
 				// Set the waiting timer for when it reaches the position 
 				roamingTimer = roamingTimerMax;
@@ -47,7 +47,7 @@ public class TaskRoam : Node
 			else
 			{
 				// Invoke event to stop the walk animation
-				OnStop?.Invoke(this, EventArgs.Empty);
+				OnAIStop?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
