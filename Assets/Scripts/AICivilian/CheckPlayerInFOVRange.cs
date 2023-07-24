@@ -13,7 +13,7 @@ public class CheckPlayerInFOVRange : Node
 
 	public override NodeState Evaluate()
 	{
-		if (Vector3.Distance(transform.position, ThirdPersonShooterController.Instance.transform.position) < 5f)
+		if (Vector3.Distance(transform.position, ThirdPersonShooterController.Instance.transform.position) < 10f)
 		{
 			Debug.Log("RUN AWAY!");
 			state = NodeState.SUCCESS;
