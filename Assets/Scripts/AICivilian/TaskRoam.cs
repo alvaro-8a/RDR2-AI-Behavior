@@ -15,7 +15,7 @@ public class TaskRoam : Node
 	private float roamingRangeX = 15f;
 	private float roamingRangeZ = 15f;
 	// Time left to move to a new position
-	private float roamingTimer;
+	private float roamingTimer = 0;
 	// Time to wait to move to another position
 	private float roamingTimerMax = 1f;
 
@@ -38,9 +38,6 @@ public class TaskRoam : Node
 				// Choose a new position to move
 				MoveToNewPosition();
 
-				// Invoke event to start the walk animation
-				OnAIMoving?.Invoke(this, EventArgs.Empty);
-
 				// Set the waiting timer for when it reaches the position 
 				roamingTimer = roamingTimerMax;
 			}
@@ -62,5 +59,8 @@ public class TaskRoam : Node
 
 		// Set new destination to the navMeshAgent
 		navMeshAgent.SetDestination(destination);
+
+		// Invoke event to start the walk animation
+		OnAIMoving?.Invoke(this, EventArgs.Empty);
 	}
 }
