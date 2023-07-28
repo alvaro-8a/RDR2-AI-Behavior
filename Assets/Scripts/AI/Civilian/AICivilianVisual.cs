@@ -40,7 +40,7 @@ public class AICivilianVisual : MonoBehaviour
 
 	private void AICivilian_OnAIEscape(object sender, System.EventArgs e)
 	{
-		// Set animator variables to play the Walk animation
+		// Set animator variables to play the Run animation
 		animator.SetFloat(SPEED, 5f);
 		animator.SetFloat(MOTION_SPEED, 1f);
 	}

@@ -1,16 +1,18 @@
+
 using System;
 using System.Collections.Generic;
 using BehaviorTree;
 using UnityEngine.AI;
 
-public class AICivilianBT : Tree
+public class AISheriffBT : Tree
 {
-	// Shared data of the tree
+	// Tree shared data
 	public event EventHandler OnAIMoving;
 	public event EventHandler OnAIStop;
-	public event EventHandler OnAIEscape;
+	public event EventHandler OnAIRun;
 
 	private NavMeshAgent navMeshAgent;
+	private float fovRange = 5f;
 
 	private void Awake()
 	{
@@ -23,9 +25,8 @@ public class AICivilianBT : Tree
 		{
 			new Sequence(new List<Node>
 			{
-				new CheckPlayerInFOVRange(transform),
-				new CheckPlayerIsAiming(),
-				new TaskRunAway(transform, navMeshAgent, OnAIEscape)
+				new CheckPlayerInFOVRange(transform, fovRange),
+				new TaskFollow(navMeshAgent, OnAIRun),
 			}),
 			new TaskRoam(transform, navMeshAgent, OnAIMoving, OnAIStop),
 		});

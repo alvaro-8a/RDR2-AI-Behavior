@@ -5,17 +5,18 @@ using UnityEngine;
 public class CheckPlayerInFOVRange : Node
 {
 	private Transform transform;
+	private float fovRange;
 
-	public CheckPlayerInFOVRange(Transform transform)
+	public CheckPlayerInFOVRange(Transform transform, float range)
 	{
 		this.transform = transform;
+		this.fovRange = range;
 	}
 
 	public override NodeState Evaluate()
 	{
-		if (Vector3.Distance(transform.position, ThirdPersonShooterController.Instance.transform.position) < 10f)
+		if (Vector3.Distance(transform.position, ThirdPersonShooterController.Instance.transform.position) < fovRange)
 		{
-			Debug.Log("RUN AWAY!");
 			state = NodeState.SUCCESS;
 			return state;
 		}

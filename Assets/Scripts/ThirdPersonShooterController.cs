@@ -10,7 +10,6 @@ public class ThirdPersonShooterController : MonoBehaviour
 	// Static reference
 	public static ThirdPersonShooterController Instance { get; private set; }
 
-
 	public bool isAiming { get; private set; }
 
 	// ShootProjectile script
